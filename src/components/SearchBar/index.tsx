@@ -1,6 +1,5 @@
-import { useEffect, useState } from "react";
 import { getSearchItems } from "../../common/api";
-import { AxiosRequestConfig } from "axios";
+import useQuery from "../../common/hook/useQuery";
 
 interface SearchItem {
   sickCd: string;
@@ -8,25 +7,19 @@ interface SearchItem {
 }
 
 const SearchBar = () => {
-  const [searchText, setSearchText] = useState<string>("");
-  const [data, setData] = useState<SearchItem[]>([]);
+  const { data, loading, error } = useQuery<SearchItem[]>(getSearchItems);
 
-  const fetchData = async () => {
-    try {
-      const searchResponse = await getSearchItems();
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
-      setData(searchResponse.data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  useEffect(() => {
-    fetchData();
-  }, []);
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
 
   return (
     <div>
+      data fetching 완료
       <input type="search" />
     </div>
   );
