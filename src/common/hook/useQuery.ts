@@ -57,7 +57,7 @@ const useQuery = <T>(
     return () => {
       isMounted = false;
     };
-  }, [queryFn]);
+  }, [queryCache, queryKey, queryFn]);
 
   return { data, loading, error };
 };
