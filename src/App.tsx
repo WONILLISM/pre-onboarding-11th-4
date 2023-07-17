@@ -1,9 +1,12 @@
+import { QueryClientProvider } from "./common/context/QueryClientContext";
 import SearchBar from "./components/SearchBar";
 
 function App() {
   return (
     <>
-      <SearchBar />
+      <QueryClientProvider>
+        <SearchBar />
+      </QueryClientProvider>
     </>
   );
 }

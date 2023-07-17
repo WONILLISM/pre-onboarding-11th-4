@@ -1,14 +1,13 @@
 import { useState, useEffect } from "react";
+import { QueryFunction, QueryResponse } from "../interface/queryClient";
+import { useQueryContext } from "../context/QueryClientContext";
 
-interface QueryResponse<T> {
-  data: T | null;
-  loading: boolean;
-  error: any;
-}
+const useQuery = <T>(
+  queryKey: string,
+  queryFn: QueryFunction<T>
+): QueryResponse<T> => {
+  const { queryCache } = useQueryContext();
 
-type QueryFunction<T> = (params?: any) => Promise<T>;
-
-const useQuery = <T>(queryFn: QueryFunction<T>): QueryResponse<T> => {
   const [data, setData] = useState<T | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<any>(null);
@@ -27,14 +26,31 @@ const useQuery = <T>(queryFn: QueryFunction<T>): QueryResponse<T> => {
         if (isMounted) {
           setData(response);
           setLoading(false);
+          queryCache.set(queryKey, {
+            data: response,
+            loading: false,
+            error: null,
+          });
         }
       } catch (error) {
         if (isMounted) {
           setError(error);
           setLoading(false);
+          queryCache.set(queryKey, { data: null, loading: false, error });
         }
       }
     };
+
+    if (queryCache.has(queryKey)) {
+      const cachedData = queryCache.get(queryKey);
+
+      if (cachedData) {
+        setData(cachedData.data);
+        setLoading(cachedData.loading);
+        setError(cachedData.error);
+        return;
+      }
+    }
 
     fetchData();
 

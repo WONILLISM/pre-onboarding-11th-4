@@ -7,7 +7,10 @@ interface SearchItem {
 }
 
 const SearchBar = () => {
-  const { data, loading, error } = useQuery<SearchItem[]>(getSearchItems);
+  const { data, loading, error } = useQuery<SearchItem[]>(
+    "search",
+    getSearchItems
+  );
 
   if (loading) {
     return <div>Loading...</div>;
@@ -16,6 +19,8 @@ const SearchBar = () => {
   if (error) {
     return <div>Error: {error}</div>;
   }
+
+  console.info("calling api");
 
   return (
     <div>
