@@ -17,7 +17,7 @@ export const QueryClientProvider = ({ children }: QueryClientProviderProps) => {
   );
 };
 
-export const useQueryContext = () => {
+export const useQueryClientContext = () => {
   const context = useContext(QueryClientContext);
   if (!context) {
     throw new Error("useQueryContext 에러");

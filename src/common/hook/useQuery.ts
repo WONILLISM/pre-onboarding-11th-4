@@ -1,12 +1,12 @@
 import { useState, useEffect } from "react";
 import { QueryFunction, QueryResponse } from "../interface/queryClient";
-import { useQueryContext } from "../context/QueryClientContext";
+import { useQueryClientContext } from "../context/QueryClientContext";
 
 const useQuery = <T>(
   queryKey: string,
   queryFn: QueryFunction<T>
 ): QueryResponse<T> => {
-  const { queryCache } = useQueryContext();
+  const { queryCache } = useQueryClientContext();
 
   const [data, setData] = useState<T | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
@@ -31,6 +31,7 @@ const useQuery = <T>(
             loading: false,
             error: null,
           });
+          console.info("calling api");
         }
       } catch (error) {
         if (isMounted) {
@@ -41,16 +42,16 @@ const useQuery = <T>(
       }
     };
 
-    if (queryCache.has(queryKey)) {
-      const cachedData = queryCache.get(queryKey);
+    // if (queryCache.has(queryKey)) {
+    //   const cachedData = queryCache.get(queryKey);
 
-      if (cachedData) {
-        setData(cachedData.data);
-        setLoading(cachedData.loading);
-        setError(cachedData.error);
-        return;
-      }
-    }
+    //   if (cachedData) {
+    //     setData(cachedData.data);
+    //     setLoading(cachedData.loading);
+    //     setError(cachedData.error);
+    //     return;
+    //   }
+    // }
 
     fetchData();
 
