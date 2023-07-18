@@ -2,9 +2,14 @@ import { useState, useEffect } from "react";
 import { QueryFunction, QueryResponse } from "../interface/queryClient";
 import { useQueryClientContext } from "../context/QueryClientContext";
 
+interface Options {
+  enabled: boolean;
+}
+
 const useQuery = <T>(
   queryKey: string,
-  queryFn: QueryFunction<T>
+  queryFn: QueryFunction<T>,
+  options?: Options
 ): QueryResponse<T> => {
   const { queryCache } = useQueryClientContext();
 
@@ -31,7 +36,7 @@ const useQuery = <T>(
             loading: false,
             error: null,
           });
-          console.info("calling api");
+          console.info(`calling api ${queryKey}`);
         }
       } catch (error) {
         if (isMounted) {
@@ -42,23 +47,30 @@ const useQuery = <T>(
       }
     };
 
-    // if (queryCache.has(queryKey)) {
-    //   const cachedData = queryCache.get(queryKey);
+    // enabled가 false면 fetch 함수 실행하지 않음
+    // enabled 기본값을 ture로 해
+    if (options?.enabled === false) {
+      setLoading(false);
+      return;
+    }
 
-    //   if (cachedData) {
-    //     setData(cachedData.data);
-    //     setLoading(cachedData.loading);
-    //     setError(cachedData.error);
-    //     return;
-    //   }
-    // }
+    if (queryCache.has(queryKey)) {
+      const cachedData = queryCache.get(queryKey);
+
+      if (cachedData) {
+        setData(cachedData.data);
+        setLoading(cachedData.loading);
+        setError(cachedData.error);
+        return;
+      }
+    }
 
     fetchData();
 
     return () => {
       isMounted = false;
     };
-  }, [queryCache, queryKey, queryFn]);
+  }, [queryCache, queryKey, queryFn, options?.enabled]);
 
   return { data, loading, error };
 };

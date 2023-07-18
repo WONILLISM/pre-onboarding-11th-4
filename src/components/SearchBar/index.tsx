@@ -1,26 +1,29 @@
 import { InputHTMLAttributes, useEffect, useState } from "react";
 import { styled } from "styled-components";
-import SuggestionBox from "./SuggestionBox";
+
 import { getSearchItems } from "../../common/api";
 import useQuery from "../../common/hook/useQuery";
-
-interface SearchItem {
-  sickCd: string;
-  sickNm: string;
-}
+import { SearchItem } from "../../common/interface/searchItem";
 
 const SearchBar = () => {
   const [searchText, setSearchText] = useState<string>("");
   const [isFocus, setIsFocus] = useState<boolean>(false);
 
-  const { data, loading, error } = useQuery<SearchItem[]>("search", () =>
-    getSearchItems({ q: searchText })
+  const { data, loading, error } = useQuery<SearchItem[]>(
+    `search ${searchText}`,
+    () => getSearchItems({ q: searchText }),
+    { enabled: !!searchText }
   );
 
   useEffect(() => {
-    getSearchItems({ q: searchText });
-    console.log(data);
+    if (!!searchText) {
+      getSearchItems({ q: searchText });
+    }
   }, [searchText]);
+
+  if (error) {
+    return <div>error</div>;
+  }
 
   return (
     <div>
@@ -36,10 +39,23 @@ const SearchBar = () => {
         onChange={(e) => {
           const { value } = e.target;
 
-          setSearchText(e.target.value);
+          setSearchText(value);
         }}
       />
-      {isFocus && <SuggestionBox />}
+      {isFocus && (
+        <div>
+          <div>추천 검색어</div>
+          {loading ? (
+            <div>Loading...</div>
+          ) : (
+            <div>
+              {data?.map((item) => (
+                <div>🔍 {item.sickNm}</div>
+              ))}
+            </div>
+          )}
+        </div>
+      )}
     </div>
   );
 };
