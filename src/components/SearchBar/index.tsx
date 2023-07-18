@@ -50,7 +50,7 @@ const SearchBar = () => {
           <RelatedSearchBox>
             {loading ? (
               <div>Loading...</div>
-            ) : data ? (
+            ) : !!searchText && data ? (
               data.map((item) => (
                 <RelatedSearchItem>🔍 {item.sickNm}</RelatedSearchItem>
               ))
