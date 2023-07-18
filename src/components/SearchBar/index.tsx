@@ -1,9 +1,9 @@
-import { InputHTMLAttributes, useEffect, useState } from "react";
-import { styled } from "styled-components";
-
+import { useEffect, useState } from "react";
+import { SearchItem } from "../../common/interface/searchItem";
 import { getSearchItems } from "../../common/api";
 import useQuery from "../../common/hook/useQuery";
-import { SearchItem } from "../../common/interface/searchItem";
+import TextField from "./TextField";
+import { styled } from "styled-components";
 
 const SearchBar = () => {
   const [searchText, setSearchText] = useState<string>("");
@@ -26,60 +26,70 @@ const SearchBar = () => {
   }
 
   return (
-    <div>
-      <TextField
-        placeholder="질환명을 입력해 주세요."
-        value={searchText}
-        onFocus={() => {
-          setIsFocus(true);
-        }}
-        onBlur={() => {
-          setIsFocus(false);
-        }}
-        onChange={(e) => {
-          const { value } = e.target;
+    <>
+      <SearchBarStyle>
+        <TextField
+          placeholder="질환명을 입력해 주세요."
+          value={searchText}
+          onFocus={() => {
+            setIsFocus(true);
+          }}
+          onBlur={() => {
+            setIsFocus(false);
+          }}
+          onChange={(e) => {
+            const { value } = e.target;
 
-          setSearchText(value);
-        }}
-      />
+            setSearchText(value);
+          }}
+        />
+      </SearchBarStyle>
       {isFocus && (
-        <div>
-          <div>추천 검색어</div>
-          {loading ? (
-            <div>Loading...</div>
-          ) : (
-            <div>
-              {data?.map((item) => (
-                <div>🔍 {item.sickNm}</div>
-              ))}
-            </div>
-          )}
-        </div>
+        <RelatedSearchArea>
+          <RelatedSearchTitle>추천 검색어</RelatedSearchTitle>
+          <RelatedSearchBox>
+            {loading ? (
+              <div>Loading...</div>
+            ) : data ? (
+              data.map((item) => (
+                <RelatedSearchItem>🔍 {item.sickNm}</RelatedSearchItem>
+              ))
+            ) : (
+              <div>검색어 없음</div>
+            )}
+          </RelatedSearchBox>
+        </RelatedSearchArea>
       )}
-    </div>
+    </>
   );
 };
 
-interface TextFieldProps extends InputHTMLAttributes<HTMLInputElement> {
-  error?: boolean;
-}
-
-const TextField = styled.input<TextFieldProps>`
-  width: 100%;
-  padding: 0 18px;
-  font-size: 15px;
-  line-height: 48px;
-  margin: 0;
-  outline: none;
-  border: none;
-  border-radius: 8px;
+const SearchBarStyle = styled.section`
+  padding: 16px;
   background-color: #ffffff;
-  transition: background 0.2s ease, color 0.1s ease, box-shadow 0.2s ease;
-  box-shadow: inset 0 0 0 1px #aaaaaa;
+  border-radius: 16px;
+`;
 
-  &:focus {
-    box-shadow: inset 0 0 0 2px blue;
-  }
+const RelatedSearchArea = styled.div`
+  margin-top: 16px;
+  padding: 20px 16px;
+  background-color: #ffffff;
+  border-radius: 16px;
+`;
+
+const RelatedSearchTitle = styled.div`
+  font-size: 12px;
+  color: #aaaaaa;
+`;
+
+const RelatedSearchBox = styled.div`
+  margin-top: 12px;
+  display: flex;
+  flex-direction: column;
+`;
+
+const RelatedSearchItem = styled.div`
+  padding: 4px 0px;
 `;
 
 export default SearchBar;

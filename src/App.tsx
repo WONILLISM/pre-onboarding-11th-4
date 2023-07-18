@@ -36,7 +36,7 @@ const GlobalStyle = createGlobalStyle`
     width: 100%;
     height: 100%;
     
-    
+    background-color: #D5E7FB;
   }
 `;
 

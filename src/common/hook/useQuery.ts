@@ -48,7 +48,7 @@ const useQuery = <T>(
     };
 
     // enabled가 false면 fetch 함수 실행하지 않음
-    // enabled 기본값을 ture로 해
+
     if (options?.enabled === false) {
       setLoading(false);
       return;
