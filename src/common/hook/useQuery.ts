@@ -42,13 +42,11 @@ const useQuery = <T>(
         error,
       });
     } finally {
-      setLoading(false); // 비동기 처리가 끝난 후 항상 setLoading(false) 호출
+      setLoading(false);
     }
   };
 
   useEffect(() => {
-    let isMounted = true;
-
     if (!options?.enabled) {
       return;
     }
@@ -76,10 +74,6 @@ const useQuery = <T>(
     console.info("calling api");
     console.info(`current data key: ${queryKey}`);
     console.info(`current query cache: `, queryCache);
-
-    return () => {
-      isMounted = false;
-    };
   }, [queryCache, queryKey, queryFn, options?.enabled, options?.cacheTime]);
 
   return { data, loading, error };
