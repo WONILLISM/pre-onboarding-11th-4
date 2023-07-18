@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { SearchItem } from "../../common/interface/searchItem";
 import { getSearchItems } from "../../common/api";
 import useQuery from "../../common/hook/useQuery";
@@ -9,17 +9,13 @@ const SearchBar = () => {
   const [searchText, setSearchText] = useState<string>("");
   const [isFocus, setIsFocus] = useState<boolean>(false);
 
-  const { data, loading, error } = useQuery<SearchItem[]>(
-    `search ${searchText}`,
-    () => getSearchItems({ q: searchText }),
-    { enabled: !!searchText }
-  );
+  const queryKey = `search ${searchText}`;
 
-  useEffect(() => {
-    if (!!searchText) {
-      getSearchItems({ q: searchText });
-    }
-  }, [searchText]);
+  const { data, loading, error } = useQuery<SearchItem[]>(
+    queryKey,
+    () => getSearchItems({ q: searchText }),
+    { enabled: !!searchText, cacheTime: 6000 }
+  );
 
   if (error) {
     return <div>error</div>;
@@ -48,14 +44,16 @@ const SearchBar = () => {
         <RelatedSearchArea>
           <RelatedSearchTitle>추천 검색어</RelatedSearchTitle>
           <RelatedSearchBox>
-            {loading ? (
+            {!!!searchText ? (
+              <div>검색어 없음</div>
+            ) : loading ? (
               <div>Loading...</div>
-            ) : !!searchText && data ? (
+            ) : data && data.length > 0 ? (
               data.map((item) => (
                 <RelatedSearchItem>🔍 {item.sickNm}</RelatedSearchItem>
               ))
             ) : (
-              <div>검색어 없음</div>
+              <div>검색 결과 없음</div>
             )}
           </RelatedSearchBox>
         </RelatedSearchArea>
