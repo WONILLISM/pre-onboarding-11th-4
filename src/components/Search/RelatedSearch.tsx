@@ -46,7 +46,7 @@ const RelatedSearch = ({
               <RelatedSearchItem
                 key={item.sickCd}
                 ref={(el) => (itemRefs.current[idx] = el)}
-                focus={idx === focusIdx}
+                $focus={idx === focusIdx}
                 tabIndex={idx === focusIdx ? 0 : -1}
               >
                 🔍 {item.sickNm}
@@ -92,11 +92,11 @@ const RelatedSearchItemWrapper = styled.div`
   border-top: 1px solid #dddddd;
 `;
 
-const RelatedSearchItem = styled.div<{ focus: boolean }>`
+const RelatedSearchItem = styled.div<{ $focus: boolean }>`
   padding: 4px 8px;
   border-radius: 8px;
 
-  ${(props) => props.focus && "background-color: #eeeeee"}
+  ${(props) => props.$focus && "background-color: #eeeeee"}
 `;
 
 export default RelatedSearch;
