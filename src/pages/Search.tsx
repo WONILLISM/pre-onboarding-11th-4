@@ -21,7 +21,7 @@ const Search = () => {
 
   const queryKey = `search ${debounceValue}`;
 
-  const { data, loading, error } = useQuery<SearchItem[]>(
+  const { data, error } = useQuery<SearchItem[]>(
     queryKey,
     () => getSearchItems({ q: searchText }),
     {
