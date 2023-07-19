@@ -3,10 +3,39 @@ import { styled } from "styled-components";
 import SearchBar from "../components/Search/SearchBar";
 import RelatedSearch from "../components/Search/RelatedSearch";
 import TextField from "../components/TextField";
+import useQuery from "../common/hook/useQuery";
+import { SearchItem } from "../common/interface/searchItem";
+import { getSearchItems } from "../common/api";
 
 const Search = () => {
   const [searchText, setSearchText] = useState<string>("");
   const [isFocus, setIsFocus] = useState<boolean>(false);
+  const [focusIdx, setFocusIdx] = useState<number>(-2);
+
+  const queryKey = `search ${searchText}`;
+
+  const { data, loading, error } = useQuery<SearchItem[]>(
+    queryKey,
+    () => getSearchItems({ q: searchText }),
+    {
+      enabled: !!searchText,
+      cacheTime: 6000,
+    }
+  );
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "ArrowUp" || e.key === "ArrowDown") {
+      e.preventDefault();
+      setFocusIdx((prevIdx) => {
+        const maxIdx = data ? Math.max(data.length - 1, 0) : 0;
+        if (e.key === "ArrowUp") {
+          return Math.max(prevIdx - 1, -1);
+        } else {
+          return Math.min(prevIdx + 1, maxIdx);
+        }
+      });
+    }
+  };
 
   return (
     <SearchStyle>
@@ -28,9 +57,19 @@ const Search = () => {
             onBlur={() => {
               setIsFocus(false);
             }}
+            onKeyDown={handleKeyDown}
           />
         </SearchBar>
-        <RelatedSearch searchText={searchText} />
+        {isFocus && (
+          <RelatedSearch
+            data={data}
+            loading={loading}
+            error={error}
+            focusIdx={focusIdx}
+            searchText={searchText}
+            handleKeyDown={handleKeyDown}
+          />
+        )}
       </SearchArea>
     </SearchStyle>
   );

@@ -1,41 +1,26 @@
 import { styled } from "styled-components";
+
+import { useEffect, useRef } from "react";
 import { SearchItem } from "../../common/interface/searchItem";
-import { getSearchItems } from "../../common/api";
-import useQuery from "../../common/hook/useQuery";
-import { useEffect, useRef, useState } from "react";
 
 interface RelatedSearchProps {
+  data: SearchItem[] | null;
+  loading: boolean;
+  error: any;
+  focusIdx: number;
   searchText: string;
+  handleKeyDown: (e: React.KeyboardEvent<HTMLInputElement>) => void;
 }
 
-const RelatedSearch = ({ searchText }: RelatedSearchProps) => {
-  const queryKey = `search ${searchText}`;
-
-  const { data, loading, error } = useQuery<SearchItem[]>(
-    queryKey,
-    () => getSearchItems({ q: searchText }),
-    { enabled: !!searchText, cacheTime: 6000 }
-  );
-
-  if (error) {
-    return <div>error</div>;
-  }
-
+const RelatedSearch = ({
+  data,
+  loading,
+  error,
+  focusIdx,
+  searchText,
+  handleKeyDown,
+}: RelatedSearchProps) => {
   const itemRefs = useRef<(HTMLDivElement | null)[]>([]);
-  const [focusIdx, setFocusIdx] = useState<number>(-1);
-
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
-    if (data) {
-      if (e.key === "ArrowUp") {
-        e.preventDefault();
-        setFocusIdx((prevIdx) => Math.max(prevIdx - 1, -1));
-      }
-      if (e.key === "ArrowDown") {
-        e.preventDefault();
-        setFocusIdx((prevIdx) => Math.min(prevIdx + 1, data.length - 1));
-      }
-    }
-  };
 
   useEffect(() => {
     if (data) {
@@ -43,16 +28,14 @@ const RelatedSearch = ({ searchText }: RelatedSearchProps) => {
     }
   }, [data]);
 
-  useEffect(() => {
-    if (itemRefs.current[focusIdx]) {
-      itemRefs.current[focusIdx]?.focus();
-    }
-  }, [focusIdx]);
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
 
   return (
     <RelatedSearchArea>
       <RelatedSearchTitle>추천 검색어</RelatedSearchTitle>
-      <RelatedSearchBox onKeyDown={handleKeyDown} tabIndex={0}>
+      <RelatedSearchBox onKeyDown={handleKeyDown}>
         {!!!searchText ? (
           <div>검색어 없음</div>
         ) : loading ? (
@@ -62,8 +45,8 @@ const RelatedSearch = ({ searchText }: RelatedSearchProps) => {
             <RelatedSearchItem
               key={item.sickCd}
               ref={(el) => (itemRefs.current[idx] = el)}
-              tabIndex={idx === focusIdx ? 0 : -1}
               focus={idx === focusIdx}
+              tabIndex={idx === focusIdx ? 0 : -1}
             >
               🔍 {item.sickNm}
             </RelatedSearchItem>
@@ -95,9 +78,10 @@ const RelatedSearchBox = styled.div`
 `;
 
 const RelatedSearchItem = styled.div<{ focus: boolean }>`
-  padding: 4px 0px;
+  padding: 4px 8px;
+  border-radius: 8px;
 
-  ${(props) => props.focus && "box-shadow: inset 0 0 0 2px red;"}
+  ${(props) => props.focus && "background-color: #eeeeee"}
 `;
 
 export default RelatedSearch;
