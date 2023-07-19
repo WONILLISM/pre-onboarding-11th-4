@@ -6,20 +6,24 @@ import TextField from "../components/TextField";
 import useQuery from "../common/hook/useQuery";
 import { SearchItem } from "../common/interface/searchItem";
 import { getSearchItems } from "../common/api";
+import useDebounce from "../common/hook/useDebounce";
 
 const Search = () => {
   const [searchText, setSearchText] = useState<string>("");
+
+  const { debounceValue } = useDebounce({ value: searchText, delay: 300 });
+
   const [isFocus, setIsFocus] = useState<boolean>(false);
   const [focusIdx, setFocusIdx] = useState<number>(-2);
 
-  const queryKey = `search ${searchText}`;
+  const queryKey = `search ${debounceValue}`;
 
   const { data, loading, error } = useQuery<SearchItem[]>(
     queryKey,
     () => getSearchItems({ q: searchText }),
     {
       enabled: !!searchText,
-      cacheTime: 6000,
+      cacheTime: 1000,
     }
   );
 
