@@ -13,7 +13,7 @@ const Search = () => {
 
   const { debounceValue, debouncing } = useDebounce({
     value: searchText,
-    delay: 300,
+    delay: 500,
   });
 
   const [isFocus, setIsFocus] = useState<boolean>(false);
@@ -23,10 +23,10 @@ const Search = () => {
 
   const { data, error } = useQuery<SearchItem[]>(
     queryKey,
-    () => getSearchItems({ q: searchText }),
+    () => getSearchItems({ q: debounceValue }),
     {
-      enabled: !!debounceValue.trim(),
-      cacheTime: 1000,
+      enabled: !!debounceValue,
+      cacheTime: 300000,
     }
   );
 
