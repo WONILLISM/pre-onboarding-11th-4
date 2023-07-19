@@ -61,9 +61,11 @@ const useQuery = <T>(
             setData(cachedData.data);
             setLoading(cachedData.loading);
             setError(cachedData.error);
+            console.info(`cache hit: ${queryKey}`);
             return;
           } else {
             fetchData();
+            console.info(`cache expired: ${queryKey}`);
             return;
           }
         }
