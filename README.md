@@ -13,7 +13,8 @@
 5. [아쉬운점](#아쉬운점)
 
 # 시작하기  
-![demo](https://github.com/WONILLISM/pre-onboarding-11th-4/assets/47653005/8dc7a2eb-8f11-4cec-bcf6-2ed402abf5b3)
+![demo](https://github.com/WONILLISM/pre-onboarding-11th-4/assets/47653005/446e467f-9870-424f-8cbf-0d8299e05a58)
+
 
 ## 사용 방법  
 구성된 백엔드 레포지토리  
