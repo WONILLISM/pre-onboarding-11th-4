@@ -13,9 +13,9 @@ const TextField = styled.input`
   transition: background 0.2s ease, color 0.1s ease, box-shadow 0.2s ease;
   box-shadow: inset 0 0 0 1px #aaaaaa;
 
-  &:focus {
+  /* &:focus {
     box-shadow: inset 0 0 0 2px blue;
-  }
+  } */
 `;
 
 export default TextField;
