@@ -11,7 +11,10 @@ import useDebounce from "../common/hook/useDebounce";
 const Search = () => {
   const [searchText, setSearchText] = useState<string>("");
 
-  const { debounceValue } = useDebounce({ value: searchText, delay: 300 });
+  const { debounceValue, debouncing } = useDebounce({
+    value: searchText,
+    delay: 300,
+  });
 
   const [isFocus, setIsFocus] = useState<boolean>(false);
   const [focusIdx, setFocusIdx] = useState<number>(-2);
@@ -67,7 +70,7 @@ const Search = () => {
         {isFocus && (
           <RelatedSearch
             data={data}
-            loading={loading}
+            loading={debouncing}
             error={error}
             focusIdx={focusIdx}
             searchText={searchText}

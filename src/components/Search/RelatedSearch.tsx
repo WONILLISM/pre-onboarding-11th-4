@@ -37,22 +37,24 @@ const RelatedSearch = ({
       <RelatedSearchTitle>추천 검색어</RelatedSearchTitle>
       <RelatedSearchBox onKeyDown={handleKeyDown}>
         {!!!searchText ? (
-          <div>검색어 없음</div>
+          <RelatedSearchText>검색어 없음</RelatedSearchText>
         ) : loading ? (
-          <div>Loading...</div>
+          <RelatedSearchText>검색중...</RelatedSearchText>
         ) : data && data.length > 0 ? (
-          data.map((item, idx) => (
-            <RelatedSearchItem
-              key={item.sickCd}
-              ref={(el) => (itemRefs.current[idx] = el)}
-              focus={idx === focusIdx}
-              tabIndex={idx === focusIdx ? 0 : -1}
-            >
-              🔍 {item.sickNm}
-            </RelatedSearchItem>
-          ))
+          <RelatedSearchItemWrapper>
+            {data.map((item, idx) => (
+              <RelatedSearchItem
+                key={item.sickCd}
+                ref={(el) => (itemRefs.current[idx] = el)}
+                focus={idx === focusIdx}
+                tabIndex={idx === focusIdx ? 0 : -1}
+              >
+                🔍 {item.sickNm}
+              </RelatedSearchItem>
+            ))}
+          </RelatedSearchItemWrapper>
         ) : (
-          <div>검색 결과 없음</div>
+          <RelatedSearchText>검색 결과 없음</RelatedSearchText>
         )}
       </RelatedSearchBox>
     </RelatedSearchArea>
@@ -71,10 +73,23 @@ const RelatedSearchTitle = styled.div`
   color: #aaaaaa;
 `;
 
+const RelatedSearchText = styled.div`
+  border-top: 1px solid #dddddd;
+  padding: 20px 0px;
+  font-size: 14px;
+  color: #aaaaaa;
+  text-align: center;
+`;
+
 const RelatedSearchBox = styled.div`
   margin-top: 12px;
   display: flex;
   flex-direction: column;
+`;
+
+const RelatedSearchItemWrapper = styled.div`
+  padding-top: 20px;
+  border-top: 1px solid #dddddd;
 `;
 
 const RelatedSearchItem = styled.div<{ focus: boolean }>`
