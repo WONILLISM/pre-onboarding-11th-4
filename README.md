@@ -165,7 +165,7 @@ export default useQuery;
 ```
 
 ## expire time 구현  
-react-query의 data는 아래와 같은 상태로 관리된다.  
+react-query의 data는 아래와 같은 상태로 관리된다.  
 - fetching : 요청중인 쿼리
 - fresh : 만료되지 않은 쿼리, 컴포넌트가 마운트, 업데이트되어도 데이터를 다시 요청하지 않는다.
 - stale : 만료된 쿼리, 컴포넌트가 마운트, 업데이트되면 데이터를 다시 요청한다.
@@ -294,7 +294,7 @@ const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
 // ...(생략)
 
 ```
-
+`RelatedSearch.tsx`
 ```javascript
 const RelatedSearch = ({
   data,
