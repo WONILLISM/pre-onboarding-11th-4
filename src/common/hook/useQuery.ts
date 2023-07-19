@@ -74,7 +74,7 @@ const useQuery = <T>(
 
     fetchData();
     console.info("calling api");
-    console.info(`current data key: ${queryKey}`);
+    console.info(`current data key: [${queryKey}]`);
     console.info(`current query cache: `, queryCache);
   }, [queryCache, queryKey, queryFn, options?.enabled, options?.cacheTime]);
 

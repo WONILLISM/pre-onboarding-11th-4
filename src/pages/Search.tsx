@@ -16,13 +16,13 @@ const Search = () => {
   const [isFocus, setIsFocus] = useState<boolean>(false);
   const [focusIdx, setFocusIdx] = useState<number>(-2);
 
-  const queryKey = `search ${debounceValue.trim()}`;
+  const queryKey = `search ${debounceValue}`;
 
   const { data, loading, error } = useQuery<SearchItem[]>(
     queryKey,
     () => getSearchItems({ q: searchText }),
     {
-      enabled: !!debounceValue,
+      enabled: !!debounceValue.trim(),
       cacheTime: 1000,
     }
   );
