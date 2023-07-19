@@ -64,7 +64,8 @@ const useQuery = <T>(
             console.info(`cache hit: ${queryKey}`);
             return;
           } else {
-            fetchData();
+            // fetchData();
+            queryCache.delete(queryKey);
             console.info(`cache expired: ${queryKey}`);
             return;
           }
