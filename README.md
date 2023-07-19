@@ -46,8 +46,7 @@
 ## 구현 전략
 - 캐싱 기능을 TanStack [react-query](https://tanstack.com/query/v3/)의 `useQuery`와 최대한 비슷하게 구현해보고자 한다.
 
-## API 호출별로 캐싱 구현  
-## & API를 호출할 때 마다 `console.info("calling api")` 출력을 통해 콘솔창에서 API 호출 횟수 확인이 가능하도록 설정  
+## API 호출별로 캐싱 구현 <br /> & API를 호출할 때 마다 `console.info("calling api")` 출력을 통해 콘솔창에서 API 호출 횟수 확인이 가능하도록 설정  
 
 API호출별로 캐싱 구현, 즉 검색어 마다 API에 호출하여 해당 데이터를 저장함을 의미한다.  
 
