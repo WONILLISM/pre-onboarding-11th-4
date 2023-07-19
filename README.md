@@ -224,11 +224,11 @@ debouce란, 전자공학용어로 버튼으로부터 신호를 받았다면, 마
 
 ### 구현과정  
 - 관심사 분리를 위해 `custom hook`으로 분리
-- debounce 처리를 해줄 value와 delay 값을 인자로 받음
-- 일정시간(delay)이 지나면 콜백함수를 호출하는 setTimeout 함수를 이용하여 입력시간을 기다림
-  - 입력받는 value값이 계속해서 입력되면(의존성에 의해 useEffect가 계속해서 실행됨), delay동안 기다리던 setTimeout의 콜백함수는 취소되고, 새로운 setTimeout함수가 호출되는 기술을 이용
-- delay시간동안 입력이 없으면 setTimeout의 콜백함수를 실행시켜 debounceValue를 현재 입력값으로 지정해주고, debouncing 상태를 false로 변환한다.
-- debouncing 상태는 ui에 검색중을 표시하기 위함
+- debounce 처리를 해줄 `value`와 `delay` 값을 인자로 받음
+- 일정시간(`delay`)이 지나면 콜백함수를 호출하는 `setTimeout` 함수를 이용하여 입력시간을 기다림
+  - 입력받는 `value`값이 계속해서 입력되면(의존성에 의해 `useEffect`가 계속해서 실행됨), `delay`동안 기다리던 `setTimeout`의 콜백함수는 취소되고, 새로운 `setTimeout`함수가 호출되는 기술을 이용
+- `delay`시간동안 입력이 없으면 `setTimeout`의 콜백함수를 실행시켜 `debounceValue`를 현재 입력값으로 지정해주고, `debouncing` 상태를 `false`로 변환한다.
+- `debouncing` 상태는 `ui`에 `검색중`을 표시하기 위함
 
 `useDebounce.ts`
 ```javascript
@@ -265,9 +265,9 @@ export default useDebounce;
 ### 구현과정  
 
 - API 호출을 통한 `data`의 크기를 통해 빈 배열을 초기값으로 가지는 변수 선언
-- <RelatedSearchItem> 컴포넌트의 `ref`값을 통해 빈 배열에 `ref` 값을 넣어줌
+- `<RelatedSearchItem>` 컴포넌트의 `ref`값을 통해 빈 배열에 `ref` 값을 넣어줌
 - 상위 컴포넌트인 Search.tsx에서 선언한 `focusIdx`와, `handleKeyDown` 함수에서 `focusIdx` 동작
-- <RelatedSearchItem> 에서 tabIdx속성으로 html 요소에 접근 시키고, focus속성으로 현재 포커스하고 있는 엘리먼트를 찾아줌
+- `<RelatedSearchItem>` 에서 `tabIdx`속성으로 html 요소에 접근 시키고, `focus`속성으로 현재 포커스하고 있는 엘리먼트를 찾아줌
 
 `Search.tsx`  
 
