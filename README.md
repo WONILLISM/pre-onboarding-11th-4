@@ -12,7 +12,9 @@
   4.5. [키보드만으로 추천 검색어들로 이동 가능하도록 구현](#키보드만으로-추천-검색어들로-이동-가능하도록-구현)  
 5. [아쉬운점](#아쉬운점)
 
-# 시작하기
+# 시작하기  
+![demo](https://github.com/WONILLISM/pre-onboarding-11th-4/assets/47653005/8dc7a2eb-8f11-4cec-bcf6-2ed402abf5b3)
+
 ## 사용 방법  
 구성된 백엔드 레포지토리  
 [backend-repo](https://github.com/walking-sunset/assignment-api)  
