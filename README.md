@@ -181,7 +181,7 @@ react-query의 data는 아래와 같은 상태로 관리된다.
 - `option`으로받은 `cacheTime`이 있고, 최초 저장된 시점인 `cachedTime`이 있다면, 남은 시간을 계산
 - 남은 시간보다 `cacheTime`이 크거나 같다면 저장된 데이터를 사용
 - 그렇지 않다면 `queryCache`에서 해당 데이터를 삭제
-- 저장된 데이터가 만료되어 삭제될때 `console.info(\`cache expired: ${queryKey}\`)`로 확인
+- 저장된 데이터가 만료되어 삭제될때 console.info(\`cache expired: ${queryKey}\`)로 확인
 
 `useQuery.ts`
 ```javascript
