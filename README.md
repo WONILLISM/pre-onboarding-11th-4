@@ -14,6 +14,7 @@
 
 # 시작하기  
 ![demo](https://github.com/WONILLISM/pre-onboarding-11th-4/assets/47653005/446e467f-9870-424f-8cbf-0d8299e05a58)
+![demo2](https://github.com/WONILLISM/pre-onboarding-11th-4/assets/47653005/34f152ee-fcc2-405d-b833-dee783645c7a)
 
 
 ## 사용 방법  
