@@ -349,3 +349,6 @@ export default RelatedSearch;
 ## 아쉬운점  
 - 현재 키보드이벤트가 일어날때 `Search.tsx` 컴포넌트의 `focusIdx`가 변경되면서 `useQuery` 훅이 계속 호출 된다. 캐싱 처리해두었기 때문에 빈번한 api 호출은 일어나지 않겠지만 의도하지 않는 현상이다.
 - `QueryClientProvider`를 `react-query` 처럼 `queryClient` 클래스를 만들어서 해보고싶다.
+- 현재 첫 검색 후 검색어를 모두 지웠다가 다시 검색어를 입력하여 요청하면 api 요청이 두번 일어나는 상황이다.
+  - 이유는 debounceValue의 초기 값은 빈 문자열이다, 그런데 useState 훅에서 초기 값으로 빈 문자열을 가진 searchText로 설정되었기 때문이다.
+  - 해결하지 못하고 제출한게 아쉽다.
