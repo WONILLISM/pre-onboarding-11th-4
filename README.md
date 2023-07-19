@@ -67,10 +67,6 @@ API호출별로 캐싱 구현, 즉 검색어 마다 API에 호출하여 해당 �
 - `QueryCache`를 `Context`를 사용하여 저장, 이후 `useQuery` Hook에서 data 요청을 하기위한 `Provider`를 만들기 위함
 - `key`와 `value` 형태인 자료구조 `Map`을 사용하여 `queryCache` 선언
 - api 호출마다 console.log(\`calling api\`)를 통해 확인가능
-  - 별도로 현재 저장하고 있는 `queryCache`와 `queryKey`를 확인하도록함
-  - console.info(\`current data key: [${queryKey}]\`);
-  - console.info(\`current query cache: \`, queryCache);
-  - 저장된 데이터를 호출할때: console.info(\`cache hit: ${queryKey}\`);
 
 `QueryClientContext.tsx`  
 ```javascript
@@ -191,7 +187,6 @@ react-query의 data는 아래와 같은 상태로 관리된다.
 - `option`으로받은 `cacheTime`이 있고, 최초 저장된 시점인 `cachedTime`이 있다면, 남은 시간을 계산
 - 남은 시간보다 `cacheTime`이 크거나 같다면 저장된 데이터를 사용
 - 그렇지 않다면 `queryCache`에서 해당 데이터를 삭제
-- 저장된 데이터가 만료되어 삭제될때 console.info(\`cache expired: ${queryKey}\`)로 확인
 
 `useQuery.ts`
 ```javascript
