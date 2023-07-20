@@ -73,8 +73,21 @@ const useQuery = <T>(
     }
 
     fetchData();
-    console.info("calling api");
-  }, [queryCache, queryKey, queryFn, options?.enabled, options?.cacheTime]);
+    console.info("calling api, key is :", queryKey);
+  }, [queryKey, options?.enabled, options?.cacheTime]);
+
+  useEffect(() => {
+    if (!options?.enabled) {
+      return;
+    }
+
+    const cachedData = queryCache.get(queryKey);
+    if (cachedData) {
+      setData(cachedData.data);
+      setLoading(cachedData.loading);
+      setError(cachedData.error);
+    }
+  }, [queryKey, options?.enabled, queryCache]);
 
   return { data, loading, error };
 };
