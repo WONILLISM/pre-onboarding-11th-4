@@ -73,7 +73,7 @@ const useQuery = <T>(
     }
 
     fetchData();
-    console.info("calling api, key is :", queryKey);
+    console.info("calling api");
   }, [queryKey, options?.enabled, options?.cacheTime]);
 
   useEffect(() => {
